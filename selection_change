@@ -1,0 +1,5 @@
+Private Sub Workbook_SheetSelectionChange(ByVal Sh As Object, ByVal Target As Range)
+Cells.Interior.Pattern = xlNone
+Selection.EntireRow.Interior.Color = vbYellow
+Selection.EntireColumn.Interior.Color = vbYellow
+End Sub
