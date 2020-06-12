@@ -33,6 +33,7 @@ Do While Sheets(1).Cells(i, col).Value <> ""
         Sheets.Add after:=Sheets(Sheets.Count)
         Sheets(Sheets.Count).Name = Sheets(1).Cells(i, col).Value
     End If
+     ' 必须i初始设置为2，将i=i+1放在后面,不然会循环到空单元格，导致命名不成功
     i = i + 1
 'Next
 Loop
