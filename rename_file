@@ -1,0 +1,6 @@
+Sub chName()
+On Error Resume Next
+For i = 2 To 12
+Name "D:\Excel 2010VBA\王佩丰\王佩丰 VBA 课件\第十七课\DATA\" & Range("a" & i) & ".jpg" As "D:\Excel 2010VBA\王佩丰\王佩丰 VBA 课件\第十七课\DATA\" & Range("a" & i) & Range("b" & i) & ".jpg"
+Next
+End Sub
