@@ -1,0 +1,34 @@
+Sub import_data()
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+Dim arr()
+Dim current_wb, source_wb As Workbook
+Dim sht As Worksheet
+Dim i As Integer
+Set current_wb = Workbooks.Add
+'Firstly delete sheets in activeworkbook
+For Each sht In current_wb.Sheets
+    If sht.Name <> current_wb.Sheets(1).Name Then
+        sht.Delete
+    End If
+Next
+
+' import
+On Error GoTo q
+arr = Application.GetOpenFilename("excels,*xls*", 1, "select your excels", , True)
+If arr(1) <> "False" Then
+    For i = LBound(arr) To UBound(arr)
+        Set source_wb = Workbooks.Open(arr(i))
+        For Each sht In source_wb.Sheets
+            'sht.Copy after:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
+            sht.Copy after:=current_wb.Sheets(current_wb.Sheets.Count)
+            current_wb.Sheets(current_wb.Sheets.Count).Name = Split(source_wb.Name, ".")(0) & sht.Name
+        Next
+        source_wb.Close
+    Next
+End If
+q:
+'current_wb.Close
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+End Sub
