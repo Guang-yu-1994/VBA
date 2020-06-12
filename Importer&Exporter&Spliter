@@ -1,0 +1,138 @@
+Sub import_test()
+Dim importer As New DataImporter
+importer.import_data
+End Sub
+
+Sub export_test()
+Dim exporter As New DataExporter
+exporter.export_data
+End Sub
+
+Sub split_test()
+Dim spliter As New SheetSpliter
+spliter.split_to_sheet
+End Sub
+
+
+Sub import_data()
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+Dim arr()
+Dim source_wb As Workbook
+Dim sht As Worksheet
+Dim i As Integer
+'Firstly delete sheets in activeworkbook
+if_del = MsgBox("want to delete before importing?", vbOKCancel, "Delete or Not")
+If if_del = 1 Then
+    For Each sht In thisworkbook.Sheets
+        If sht.Name <> thisworkbook.Sheets(1).Name Then
+            sht.Delete
+        End If
+    Next
+End If
+
+' import
+On Error GoTo q
+arr = Application.GetOpenFilename("excels,*xls*", 1, "select your excels", , True)
+If arr(1) <> "False" Then
+    For i = LBound(arr) To UBound(arr)
+        Set source_wb = Workbooks.Open(arr(i))
+        For Each sht In source_wb.Sheets
+            'sht.Copy after:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
+            sht.Copy after:=thisworkbook.Sheets(thisworkbook.Sheets.Count)
+            thisworkbook.Sheets(thisworkbook.Sheets.Count).Name = Split(source_wb.Name, ".")(0) & sht.Name
+        Next
+        source_wb.Close
+    Next
+End If
+q:
+'thisworkbook.Close
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+End Sub
+
+
+
+
+
+
+Sub export_data()
+Application.DisplayAlerts = False
+Application.ScreenUpdating = False
+Dim sht As Worksheet
+Dim myPath
+myPath = Application.InputBox("export Path", , , , , , , 2)
+If myPath = "" Then
+    Exit Sub
+End If
+For Each sht In Sheets
+    If sht.Name <> Sheets(1).Name Then
+        sht.Copy
+        ActiveWorkbook.SaveAs myPath & "\" & sht.Name & ".xlsx"
+        ActiveWorkbook.Close
+    End If
+Next
+Application.DisplayAlerts = True
+Application.ScreenUpdating = True
+MsgBox "Export Done!!!"
+End Sub
+
+
+
+
+
+
+Sub split_to_sheet()
+Application.DisplayAlerts = False
+Application.ScreenUpdating = False
+Dim sht As Worksheet
+Dim i As Integer
+Dim col
+col = InputBox("which column to split")
+If col = "" Then
+    Exit Sub
+End If
+col = Val(col)
+nrow = Sheets(1).Range("a65565").End(xlUp).Row
+'1st delete sheets
+if_del = MsgBox("want to delete before spliting?", vbOKCancel, "Delete or Not")
+If if_del = 1 Then
+    For Each sht In Sheets:
+        If sht.Name <> Sheets(1).Name Then
+            sht.Delete
+        End If
+    Next
+End If
+'2nd create sheets according to certain column
+i = 2
+' must specify sheets(1).cells
+Do While Sheets(1).Cells(i, col).Value <> ""
+'For i = 2 To nrow
+    sheet_exist = False
+    For Each sht In Sheets
+        ' to check if sheets with same name of the cell exists
+        If sht.Name = Sheets(1).Cells(i, col).Value Then
+            sheet_exist = True
+        End If
+    Next
+    If sheet_exist = False Then
+        Sheets.Add after:=Sheets(Sheets.Count)
+        Sheets(Sheets.Count).Name = Sheets(1).Cells(i, col).Value
+    End If
+     ' 必须i初始设置为2，将i=i+1放在后面,不然会循环到空单元格，导致命名不成功
+    i = i + 1
+'Next
+Loop
+' lastly, copy the data to sheets
+For Each sht In Sheets:
+    If sht.Name <> Sheets(1).Name Then
+        sht.UsedRange.ClearContents
+        Sheets(1).UsedRange.AutoFilter Field:=col, Criteria1:=sht.Name
+        Sheets(1).UsedRange.Copy sht.Range("a1")
+    End If
+    Sheets(1).UsedRange.AutoFilter
+Next
+Sheets(1).Select
+Application.DisplayAlerts = True
+Application.ScreenUpdating = True
+End Sub
