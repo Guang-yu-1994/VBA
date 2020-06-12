@@ -1,0 +1,17 @@
+Sub split_data()
+Application.DisplayAlerts = False
+Application.ScreenUpdating = False
+Dim sht As Worksheet
+Dim myPath As String
+myPath = ThisWorkbook.Path & "\"
+For Each sht In Sheets
+    If sht.Name <> Sheets(1).Name Then
+        sht.Copy
+        ActiveWorkbook.SaveAs myPath & sht.Name & ".xlsx"
+        ActiveWorkbook.Close
+    End If
+Next
+Application.DisplayAlerts = True
+Application.ScreenUpdating = True
+MsgBox "split Done!!!"
+End Sub
