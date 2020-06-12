@@ -1,0 +1,12 @@
+Sub add_pic()
+Dim i As Integer
+Dim shp, shp1 As Shape
+For Each shp In Sheet1.Shapes
+    shp.Delete
+Next
+On Error Resume Next
+For i = 2 To 8
+    Set shp1 = Sheet1.Shapes.AddPicture("D:\Excel 2010VBA\王佩丰\王佩丰 VBA 课件\第十七课\DATA\" & Range("a" & i) & ".jpg", msoFalse, msoCTrue, Range("d" & i).Left, Range("d" & i).Top, Range("d" & i).Width, Range("d" & i).Height)
+    shp1.Placement = xlMoveAndSize
+Next
+End Sub
