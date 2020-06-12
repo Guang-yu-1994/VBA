@@ -1,0 +1,3 @@
+Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
+thisworkbook.SaveCopyAs Filename:="D:\Excel 2010VBA\backups\" & thisworkbook.Name & Format(Now(), "yyyymmddhhmmss") & ".xlsx"
+End Sub
