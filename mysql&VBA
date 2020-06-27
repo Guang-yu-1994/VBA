@@ -1,6 +1,7 @@
 Sub test()
 ' at first install mysql-connector-odbc 32/64
 ' 控制面板-管理工具-配置odbc数据源
+' 引入"Microsoft ActiveX Data Objects 6.1 Library"和"Microsoft ActiveX Data Objects Recordset 6.0 Library" 或者更高版本
 'Dim conn As New ADODB.Connection
 Set conn = CreateObject("ADODB.Connection")
 conn.Open "Driver={MySQL ODBC 8.0 Unicode Driver};Server=127.0.0.1;DB=testmysql;UID=root;PWD=root;OPTION=3;"
