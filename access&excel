@@ -1,7 +1,9 @@
 Sub test()
-Dim conn As New ADODB.Connection
+'Dim conn As New ADODB.Connection
+Set conn = CreateObject("ADODB.Connection")
 conn.Open "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\Excel 2010VBA\王佩丰\王佩丰 VBA 课件\第十九课\Database11.accdb"
+Sheet3.UsedRange.ClearContents
 Sheet3.Range("a1").CopyFromRecordset conn.Execute("SELECT * FROM  [产品信息]")
-conn.Execute ("INSERT INTO [产品信息] (产品编号,类别,品名,规格,价格) VALUES('D1234213','H类','I456456','2L',300)")
+conn.Execute ("INSERT INTO [产品信息] (产品编号,类别,品名,规格,价格) VALUES('D1234213','SM类','I456456','2L',300)")
 conn.Close
 End Sub
