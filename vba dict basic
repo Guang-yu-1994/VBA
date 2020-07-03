@@ -1,0 +1,33 @@
+Sub dict1()
+Dim dic As New Dictionary
+dic.Add "Joy", 1000
+dic.Add "Tom", 2000
+dic.Add "Shit", 3000
+Sheet3.Range("a1") = dic("Shit")
+dic("Shit") = 3
+Sheet3.Range("a2") = dic("Shit")
+End Sub
+
+Sub dict2()
+Dim dic As New Dictionary
+For i = 2 To 4
+    dic.Add Sheet3.Range("d" & i).Value, Sheet3.Range("e" & i).Value
+Next
+Range("f1") = dic("Joy")
+dic("WMX") = 10000
+Range("f2") = dic("WMX")
+MsgBox dic.Count
+Range("g1:g4") = dic.Keys ' vertical is always Joy, the first key
+Range("g1:j1") = dic.Keys ' horizonal is all the keys
+End Sub
+
+Sub dict3()
+Dim dic As New Dictionary
+Dim arr()
+arr = Sheet3.Range("d2:e4")
+'MsgBox UBound(arr)
+For i = LBound(arr) To UBound(arr)
+    dic(arr(i, 1)) = arr(i, 2)
+Next
+Range("g1:j1") = dic.Keys ' horizonal is all the keys
+End Sub
