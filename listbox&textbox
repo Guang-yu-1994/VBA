@@ -1,0 +1,25 @@
+Private Sub ListBox1_Click()
+Me.TextBox1.Value = Me.ListBox1.Value
+Me.ListBox1.Visible = False
+End Sub
+
+Private Sub TextBox1_Change()
+Me.ListBox1.Clear
+If Len(Me.TextBox1.Value) >= 4 Then
+    For i = 2 To 8
+        ' see the index of textbox's value in the range, if return > 0 then it found it
+        If InStr(Sheet1.Range("i" & i), Me.TextBox1.Value) > 0 Then
+            Me.ListBox1.AddItem Sheet1.Range("i" & i)
+        End If
+    Next
+    ' show the list box when matches
+    If Me.ListBox1.ListCount > 0 Then
+        Me.ListBox1.Visible = True
+    Else
+        Me.ListBox1.Visible = False
+    End If
+Else
+    Me.ListBox1.Visible = False
+End If
+
+End Sub
