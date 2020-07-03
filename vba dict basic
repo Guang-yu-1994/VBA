@@ -31,3 +31,15 @@ For i = LBound(arr) To UBound(arr)
 Next
 Range("g1:j1") = dic.Keys ' horizonal is all the keys
 End Sub
+
+
+Sub test()
+Dim arr()
+Dim dic As New Dictionary
+arr = Range("a2:e14")
+For i = LBound(arr) To UBound(arr)
+    'use dict to remove duplicated value and left the total types
+    dic(arr(i, 2)) = 1
+Next
+Sheet1.ListBox1.List = dic.Keys
+End Sub
