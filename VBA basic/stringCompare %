@@ -1,0 +1,12 @@
+Sub test1()
+Range("d4") = "Dublin" Like "dublin" ' return false
+Range("d5") = StrComp("dublin", "DUBLIN", vbBinaryCompare) ' return 1, vbBinaryCompare ignore the case
+Range("d6") = StrComp("dublin", "DUBLIN", vbTextCompare) ' return 0, vbTestCompare know the case
+End Sub
+
+Sub test2()
+Range("e4") = "dublin" Like "*dUblin*" ' return False
+Range("e5") = StrComp("dublin", "%DUBLIN %", vbBinaryCompare) ' return 1, vbBinaryCompare ignore the case
+Range("e6") = StrComp("dublin", "%DUBLIN %", vbTextCompare) ' return 1
+End Sub
+' when using compare %, ignore case use strcomp, non-ignore case use like
