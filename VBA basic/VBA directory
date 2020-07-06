@@ -1,0 +1,21 @@
+Sub make_dir()
+Dim dataSource As String
+dataSource = ThisWorkbook.Path & "\dataSource\"
+' dir get the string of the derectory, is len = 0 , it does not exist
+If Len(Dir(dataSource, vbDirectory)) = 0 Then MkDir dataSource
+End Sub
+
+Sub remove_dir()
+Dim dataSource As String
+dataSource = ThisWorkbook.Path & "\dataSource\"
+' dir get the string of the derectory, is len = 0 , it does not exist
+If Len(Dir(dataSource, vbDirectory)) <> 0 Then RmDir dataSource
+End Sub
+
+Sub rename_dir()
+Dim dataSource, newName As String
+dataSource = ThisWorkbook.Path & "\dataSource\"
+newName = ThisWorkbook.Path & "\dataSources\"
+' dir get the string of the derectory, is len = 0 , it does not exist
+If Len(Dir(dataSource, vbDirectory)) <> 0 Then Name dataSource As newName
+End Sub
