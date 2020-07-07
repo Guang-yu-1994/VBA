@@ -1,0 +1,41 @@
+Function remove_space(s As String)
+Dim arr() As String
+Dim sFinal As String
+arr = Split(s, " ")
+For i = LBound(arr) To UBound(arr)
+    sFinal = sFinal & arr(i)
+Next
+remove_space = sFinal
+End Function
+Private Sub Workbook_Open()
+Dim filePath, goalPath As String
+Dim file As String ' must dim specificly, otherwise will be treated as variant, when call funtion(s as string) will be a bug
+Dim nrow, i, j As Integer
+Dim wb As Workbook
+Dim arr()
+response = MsgBox("start transforming?", vbOKCancel)
+If response = vbOK Then
+    filePath = ThisWorkbook.Path & "\DataSource\"
+    goalPath = ThisWorkbook.Path & "\Renamed\"
+    If Len(Dir(filePath, vbDirectory)) = 0 Then MkDir filePath
+    If Len(Dir(goalPath, vbDirectory)) = 0 Then MkDir goalPath
+    file = Dir(filePath & "*.xls*")
+    nrow = Sheet1.Range("A65536").End(xlUp).Row
+    arr = Sheet1.Range("A2 : B" & nrow)
+    
+    Do While file <> ""
+        For i = LBound(arr) To UBound(arr)
+            'remove space and upper the case to ignore case
+            If UCase(remove_space(file)) Like UCase(remove_space("*" & arr(i, 1) & "*")) Then
+                Set wb = Workbooks.Open(filePath & file)
+                wb.SaveCopyAs ThisWorkbook.Path & "\Renamed\" & arr(i, 2) & ".xlsx"
+                wb.Close
+                'MsgBox file & arr(i, 1) & arr(i, 2)
+                j = j + 1
+            End If
+        Next
+        file = Dir
+    Loop
+    MsgBox "transforming complete, tatal number is " & j
+End If
+End Sub
